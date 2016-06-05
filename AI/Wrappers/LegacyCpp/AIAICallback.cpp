@@ -1174,14 +1174,17 @@ const springLegacyAI::FeatureDef* springLegacyAI::CAIAICallback::GetFeatureDefBy
 
 		{
 			const int size = sAICallback->FeatureDef_getCustomParams(skirmishAIId, featureDefId, nullptr, nullptr);
+			if(size > 0)
+			{
+				std::vector<const char*> cKeys(size, "");
+				std::vector<const char*> cValues(size, "");
 
-			std::vector<const char*> cKeys(size, "");
-			std::vector<const char*> cValues(size, "");
+				sAICallback->FeatureDef_getCustomParams(skirmishAIId, featureDefId, &cKeys[0], &cValues[0]);
 
-			sAICallback->FeatureDef_getCustomParams(skirmishAIId, featureDefId, &cKeys[0], &cValues[0]);
-
-			for (int i = 0; i < size; ++i) {
-				featureDef->customParams[cKeys[i]] = cValues[i];
+				for(int i = 0; i < size; ++i)
+				{
+					featureDef->customParams[cKeys[i]] = cValues[i];
+				}
 			}
 		}
 
